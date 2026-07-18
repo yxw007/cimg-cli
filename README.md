@@ -2,6 +2,12 @@
 
 一款轻量、高效的**图片压缩 CLI 工具**，支持 PNG、JPG/JPEG、GIF 格式的批量压缩与单文件压缩。
 
+![GitHub top language](https://img.shields.io/github/languages/top/yxw007/cimg-cli)
+![GitHub License](https://img.shields.io/github/license/yxw007/cimg-cli)
+![NPM Version](https://img.shields.io/npm/v/%40yxw007%2Fcimg-cli)
+![Codecov](https://codecov.io/gh/yxw007/cimg-cli/branch/master/graph/badge.svg)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/yxw007/cimg-cli/ci.yml)
+
 ## 特性
 
 - 🖼️ 支持 **PNG / JPG / JPEG / GIF** 四种常见图片格式
