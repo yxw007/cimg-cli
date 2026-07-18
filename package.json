@@ -1,6 +1,6 @@
 {
 	"name": "@yxw007/cimg-cli",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "An image compression CLI tool",
 	"author": "yxw007<aa4790139@gmail.com>",
 	"homepage": "https://github.com/yxw007/cimg-cli",

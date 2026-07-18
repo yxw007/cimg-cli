@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.2
+
+[compare changes](https://github.com/yxw007/cimg-cli/compare/v0.0.1...v0.0.2)
+
+### 🤖 CI
+
+- Upgrade ci node version to 22 ([2239134](https://github.com/yxw007/cimg-cli/commit/2239134))
+
+### ❤️ Contributors
+
+- Yxw007 ([@yxw007](https://github.com/yxw007))
+
 ## v0.0.1
 
 
