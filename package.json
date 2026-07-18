@@ -1,0 +1,43 @@
+{
+	"name": "cimg-cli",
+	"version": "1.0.0",
+	"description": "一款图片压缩CLI工具",
+	"author": "yxw007<aa4790139@gmail.com>",
+	"type": "module",
+	"bin": {
+		"cimg": "./bin/cimg.js"
+	},
+	"files": [
+		"bin",
+		"dist"
+	],
+	"scripts": {
+		"build": "rolldown -c rolldown.config.mts",
+		"dev": "rolldown -c rolldown.config.mts -w",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"prepublishOnly": "npm run build"
+	},
+	"dependencies": {
+		"commander": "^13.1.0",
+		"sharp": "^0.34.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.0",
+		"rolldown": "^1.0.0-beta.7",
+		"typescript": "^5.7.0",
+		"vitest": "^3.0.0"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"keywords": [
+		"image",
+		"compression",
+		"cli",
+		"png",
+		"jpg",
+		"gif"
+	],
+	"license": "MIT"
+}
