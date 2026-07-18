@@ -18,7 +18,7 @@
 ## 安装
 
 ```bash
-npm install -g cimg-cli
+npm install -g @yxw007/cimg-cli
 ```
 
 或者使用 npx：

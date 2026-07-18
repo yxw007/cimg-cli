@@ -1,7 +1,7 @@
 {
-	"name": "cimg-cli",
-	"version": "1.0.0",
-	"description": "一款图片压缩CLI工具",
+	"name": "@yxw007/cimg-cli",
+	"version": "0.0.0",
+	"description": "An image compression CLI tool",
 	"author": "yxw007<aa4790139@gmail.com>",
 	"homepage": "https://github.com/yxw007/cimg-cli",
 	"repository": {
