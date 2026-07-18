@@ -31,7 +31,7 @@
 		"test:watch": "vitest",
 		"test:coverage": "vitest --coverage --run",
 		"prepublishOnly": "npm run build",
-		"release": "pnpm changelogen --release -i",
+		"release": "pnpm changelogen --release -i && git push & git push --tags",
 		"prepare": "husky"
 	},
 	"dependencies": {
