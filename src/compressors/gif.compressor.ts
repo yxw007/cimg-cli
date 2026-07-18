@@ -1,17 +1,16 @@
-import sharp from 'sharp';
-import type { ICompressor } from '../core/compressor.interface.js';
-import type { CompressOptions, CompressResult } from '../types.js';
-import { getFileSize } from '../utils/file.js';
+import sharp from "sharp";
+import type { ICompressor } from "../core/compressor.interface.js";
+import type { CompressOptions, CompressResult } from "../types.js";
+import { getFileSize } from "../utils/file.js";
 
 export class GifCompressor implements ICompressor {
-  readonly supportedExtensions = ['.gif'];
+  readonly supportedExtensions = [".gif"];
 
   async compress(inputPath: string, outputPath: string, options: CompressOptions): Promise<CompressResult> {
     try {
       const inputSize = await getFileSize(inputPath);
-      await sharp(inputPath, { animated: true })
-        .gif()
-        .toFile(outputPath);
+      const colors = Math.max(2, Math.min(256, Math.round(options.quality / 100 * 255) + 1));
+      await sharp(inputPath, { animated: true, limitInputPixels: false }).gif({ colors }).toFile(outputPath);
       const outputSize = await getFileSize(outputPath);
       return { inputPath, outputPath, inputSize, outputSize, success: true };
     } catch (error) {

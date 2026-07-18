@@ -1,0 +1,8 @@
+{
+  "trailingComma": "all",
+  "semi": true,
+  "printWidth": 140,
+  "singleQuote": false,
+  "sortPackageJson": false,
+  "ignorePatterns": ["/**/CHANGELOG.md", "pnpm-lock.yaml", "dist/**/*", "coverage/**/*"]
+}

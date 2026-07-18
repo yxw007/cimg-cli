@@ -1,7 +1,7 @@
-import type { ICompressor } from '../core/compressor.interface.js';
-import { PngCompressor } from './png.compressor.js';
-import { JpgCompressor } from './jpg.compressor.js';
-import { GifCompressor } from './gif.compressor.js';
+import type { ICompressor } from "../core/compressor.interface.js";
+import { PngCompressor } from "./png.compressor.js";
+import { JpgCompressor } from "./jpg.compressor.js";
+import { GifCompressor } from "./gif.compressor.js";
 
 /**
  * 压缩器注册表 — 根据文件扩展名自动寻找对应压缩器

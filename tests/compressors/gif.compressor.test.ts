@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import os from 'node:os';
-import sharp from 'sharp';
-import { GifCompressor } from '../../src/compressors/gif.compressor.js';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import fs from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import sharp from "sharp";
+import { GifCompressor } from "../../src/compressors/gif.compressor.js";
 
 // Disable sharp cache to avoid EBUSY on Windows during cleanup
 sharp.cache(false);
@@ -12,7 +12,7 @@ const compressor = new GifCompressor();
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cimg-test-'));
+  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cimg-test-"));
 });
 
 afterEach(async () => {
@@ -28,7 +28,7 @@ afterEach(async () => {
 });
 
 async function createTestGif(): Promise<string> {
-  const filePath = path.join(tmpDir, 'test.gif');
+  const filePath = path.join(tmpDir, "test.gif");
   const buffer = await sharp({
     create: {
       width: 50,
@@ -43,14 +43,14 @@ async function createTestGif(): Promise<string> {
   return filePath;
 }
 
-describe('GifCompressor', () => {
-  it('should have .gif extension', () => {
-    expect(compressor.supportedExtensions).toEqual(['.gif']);
+describe("GifCompressor", () => {
+  it("should have .gif extension", () => {
+    expect(compressor.supportedExtensions).toEqual([".gif"]);
   });
 
-  it('should compress a GIF file', async () => {
+  it("should compress a GIF file", async () => {
     const inputPath = await createTestGif();
-    const outputPath = path.join(tmpDir, 'output.gif');
+    const outputPath = path.join(tmpDir, "output.gif");
 
     const result = await compressor.compress(inputPath, outputPath, { quality: 80, force: false });
 
@@ -58,7 +58,10 @@ describe('GifCompressor', () => {
     expect(result.inputSize).toBeGreaterThan(0);
     expect(result.outputSize).toBeGreaterThan(0);
 
-    const exists = await fs.stat(outputPath).then(() => true).catch(() => false);
+    const exists = await fs
+      .stat(outputPath)
+      .then(() => true)
+      .catch(() => false);
     expect(exists).toBe(true);
   });
 });

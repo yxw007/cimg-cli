@@ -1,7 +1,7 @@
-import path from 'node:path';
+import path from "node:path";
 
 /** 支持的图片扩展名集合 */
-const SUPPORTED_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.gif']);
+const SUPPORTED_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".gif"]);
 
 /** 判断扩展名是否受支持 */
 export function isSupported(ext: string): boolean {
@@ -38,11 +38,7 @@ export function getSingleOutputPath(inputPath: string, outputArg?: string): stri
  * - 未指定 -o：输出到 CWD/output/，文件名加 .min 后缀
  * - 指定 -o：输出到指定目录，保持原名
  */
-export function getFolderOutputPath(
-  inputBase: string,
-  filePath: string,
-  outputArg?: string,
-): string {
+export function getFolderOutputPath(inputBase: string, filePath: string, outputArg?: string): string {
   const relPath = path.relative(inputBase, filePath);
   const ext = path.extname(filePath);
   const name = path.basename(filePath, ext);
@@ -54,9 +50,9 @@ export function getFolderOutputPath(
   }
 
   // 默认 → 输出到 ./output/，加 .min 后缀，保持相对路径
-  const outputBase = path.resolve('output');
+  const outputBase = path.resolve("output");
   const minFileName = `${name}.min${ext}`;
-  if (fileDir === '.') {
+  if (fileDir === ".") {
     return path.join(outputBase, minFileName);
   }
   return path.join(outputBase, fileDir, minFileName);

@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import os from 'node:os';
-import sharp from 'sharp';
-import { JpgCompressor } from '../../src/compressors/jpg.compressor.js';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import fs from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import sharp from "sharp";
+import { JpgCompressor } from "../../src/compressors/jpg.compressor.js";
 
 // Disable sharp cache to avoid EBUSY on Windows
 sharp.cache(false);
@@ -12,7 +12,7 @@ const compressor = new JpgCompressor();
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cimg-test-'));
+  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cimg-test-"));
 });
 
 afterEach(async () => {
@@ -27,7 +27,7 @@ afterEach(async () => {
 });
 
 async function createTestJpg(): Promise<string> {
-  const filePath = path.join(tmpDir, 'test.jpg');
+  const filePath = path.join(tmpDir, "test.jpg");
   const buffer = await sharp({
     create: {
       width: 100,
@@ -42,14 +42,14 @@ async function createTestJpg(): Promise<string> {
   return filePath;
 }
 
-describe('JpgCompressor', () => {
-  it('should have .jpg and .jpeg extensions', () => {
-    expect(compressor.supportedExtensions).toEqual(['.jpg', '.jpeg']);
+describe("JpgCompressor", () => {
+  it("should have .jpg and .jpeg extensions", () => {
+    expect(compressor.supportedExtensions).toEqual([".jpg", ".jpeg"]);
   });
 
-  it('should compress a JPG file', async () => {
+  it("should compress a JPG file", async () => {
     const inputPath = await createTestJpg();
-    const outputPath = path.join(tmpDir, 'output.jpg');
+    const outputPath = path.join(tmpDir, "output.jpg");
 
     const result = await compressor.compress(inputPath, outputPath, { quality: 80, force: false });
 
@@ -57,15 +57,18 @@ describe('JpgCompressor', () => {
     expect(result.inputSize).toBeGreaterThan(0);
     expect(result.outputSize).toBeGreaterThan(0);
 
-    const exists = await fs.stat(outputPath).then(() => true).catch(() => false);
+    const exists = await fs
+      .stat(outputPath)
+      .then(() => true)
+      .catch(() => false);
     expect(exists).toBe(true);
   });
 
-  it('should produce smaller files with lower quality', async () => {
+  it("should produce smaller files with lower quality", async () => {
     const inputPath = await createTestJpg();
 
-    const highQualityPath = path.join(tmpDir, 'high.jpg');
-    const lowQualityPath = path.join(tmpDir, 'low.jpg');
+    const highQualityPath = path.join(tmpDir, "high.jpg");
+    const lowQualityPath = path.join(tmpDir, "low.jpg");
 
     const highResult = await compressor.compress(inputPath, highQualityPath, { quality: 90, force: false });
     const lowResult = await compressor.compress(inputPath, lowQualityPath, { quality: 10, force: false });

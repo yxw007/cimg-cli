@@ -96,7 +96,7 @@ var PngCompressor = class {
 	async compress(inputPath, outputPath, options) {
 		try {
 			const inputSize = await getFileSize(inputPath);
-			await sharp(inputPath).png({ quality: options.quality }).toFile(outputPath);
+			await sharp(inputPath, { limitInputPixels: false }).png({ quality: options.quality }).toFile(outputPath);
 			return {
 				inputPath,
 				outputPath,
@@ -123,7 +123,7 @@ var JpgCompressor = class {
 	async compress(inputPath, outputPath, options) {
 		try {
 			const inputSize = await getFileSize(inputPath);
-			await sharp(inputPath).jpeg({
+			await sharp(inputPath, { limitInputPixels: false }).jpeg({
 				quality: options.quality,
 				mozjpeg: true
 			}).toFile(outputPath);
@@ -153,7 +153,11 @@ var GifCompressor = class {
 	async compress(inputPath, outputPath, options) {
 		try {
 			const inputSize = await getFileSize(inputPath);
-			await sharp(inputPath, { animated: true }).gif().toFile(outputPath);
+			const colors = Math.max(2, Math.min(256, Math.round(options.quality / 100 * 255) + 1));
+			await sharp(inputPath, {
+				animated: true,
+				limitInputPixels: false
+			}).gif({ colors }).toFile(outputPath);
 			return {
 				inputPath,
 				outputPath,

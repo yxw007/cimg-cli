@@ -1,4 +1,4 @@
-import type { CompressOptions, CompressResult } from '../types.js';
+import type { CompressOptions, CompressResult } from "../types.js";
 
 /** 压缩器接口 — 所有格式的压缩器需实现此接口 */
 export interface ICompressor {

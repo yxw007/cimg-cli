@@ -3,6 +3,17 @@
 	"version": "1.0.0",
 	"description": "一款图片压缩CLI工具",
 	"author": "yxw007<aa4790139@gmail.com>",
+	"homepage": "https://github.com/yxw007/cimg-cli",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/yxw007/cimg-cli.git"
+	},
+	"bugs": {
+		"url": "https://github.com/yxw007/cimg-cli/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
 	"type": "module",
 	"bin": {
 		"cimg": "./bin/cimg.js"
@@ -12,24 +23,46 @@
 		"dist"
 	],
 	"scripts": {
+		"lint": "oxlint . && oxfmt --check .",
+		"lint:fix": "oxlint . --fix && oxfmt .",
 		"build": "rolldown -c rolldown.config.mts",
 		"dev": "rolldown -c rolldown.config.mts -w",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"prepublishOnly": "npm run build"
+		"prepublishOnly": "npm run build",
+		"release": "pnpm changelogen --release -i",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"commander": "^13.1.0",
-		"sharp": "^0.34.1"
+		"sharp": "^0.34.5"
 	},
 	"devDependencies": {
-		"@types/node": "^22.13.0",
-		"rolldown": "^1.0.0-beta.7",
-		"typescript": "^5.7.0",
-		"vitest": "^3.0.0"
+		"@commitlint/config-conventional": "^19.8.1",
+		"@types/node": "^22.20.1",
+		"chalk": "^5.6.2",
+		"changelogen": "^0.6.2",
+		"commitlint": "^19.8.1",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0",
+		"oxfmt": "^0.42.0",
+		"oxlint": "^1.74.0",
+		"rolldown": "^1.2.0",
+		"typescript": "^5.9.3",
+		"vitest": "^3.2.7"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"**/*.{ts}": [
+			"pnpm lint:fix"
+		]
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=22"
 	},
 	"keywords": [
 		"image",

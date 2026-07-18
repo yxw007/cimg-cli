@@ -1,14 +1,9 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import type { CompressOptions, CompressResult, ProcessOptions } from '../types.js';
-import { registry } from '../compressors/index.js';
-import {
-  getExtension,
-  getSingleOutputPath,
-  getFolderOutputPath,
-  isImageFile,
-} from '../utils/path.js';
-import { ensureDir, scanImages, exists, formatSize } from '../utils/file.js';
+import fs from "node:fs/promises";
+import path from "node:path";
+import type { CompressOptions, CompressResult, ProcessOptions } from "../types.js";
+import { registry } from "../compressors/index.js";
+import { getExtension, getSingleOutputPath, getFolderOutputPath, isImageFile } from "../utils/path.js";
+import { ensureDir, scanImages, exists, formatSize } from "../utils/file.js";
 
 /** 处理单文件压缩 */
 async function processSingleFile(inputPath: string, options: CompressOptions & { outputArg?: string }): Promise<CompressResult> {
@@ -17,7 +12,7 @@ async function processSingleFile(inputPath: string, options: CompressOptions & {
   if (!compressor) {
     return {
       inputPath,
-      outputPath: '',
+      outputPath: "",
       inputSize: 0,
       outputSize: 0,
       success: false,
@@ -67,7 +62,7 @@ async function processFolder(inputPath: string, options: CompressOptions & { out
         inputSize: 0,
         outputSize: 0,
         success: false,
-        error: 'Output file already exists',
+        error: "Output file already exists",
       });
       continue;
     }
@@ -99,8 +94,10 @@ function printFolderResults(results: CompressResult[]): void {
   for (const r of results) {
     if (r.success) {
       const saved = ((1 - r.outputSize / r.inputSize) * 100).toFixed(1);
-      console.log(`  ✅ ${path.relative(process.cwd(), r.inputPath)} → ${path.relative(process.cwd(), r.outputPath)} (${formatSize(r.inputSize)} → ${formatSize(r.outputSize)}, ${saved}% saved)`);
-    } else if (r.error?.includes('already exists')) {
+      console.log(
+        `  ✅ ${path.relative(process.cwd(), r.inputPath)} → ${path.relative(process.cwd(), r.outputPath)} (${formatSize(r.inputSize)} → ${formatSize(r.outputSize)}, ${saved}% saved)`,
+      );
+    } else if (r.error?.includes("already exists")) {
       console.log(`  ⏭  Skip: ${path.relative(process.cwd(), r.outputPath)} (already exists)`);
     } else {
       console.log(`  ❌ ${r.inputPath}: ${r.error}`);
@@ -140,14 +137,14 @@ export async function processPath(inputPath: string, options: ProcessOptions): P
     const results = await processFolder(resolvedPath, options);
 
     if (results.length === 0) {
-      console.log('   No supported images found.');
+      console.log("   No supported images found.");
       return;
     }
 
     printFolderResults(results);
 
     // Only exit with non-zero for actual errors (not skipped files)
-    const realErrors = results.filter((r) => !r.success && !r.error?.includes('already exists'));
+    const realErrors = results.filter((r) => !r.success && !r.error?.includes("already exists"));
     if (realErrors.length > 0) {
       process.exit(1);
     }

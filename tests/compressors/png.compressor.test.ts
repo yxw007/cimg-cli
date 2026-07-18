@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import os from 'node:os';
-import sharp from 'sharp';
-import { PngCompressor } from '../../src/compressors/png.compressor.js';
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import fs from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import sharp from "sharp";
+import { PngCompressor } from "../../src/compressors/png.compressor.js";
 
 // Disable sharp cache to avoid EBUSY on Windows
 sharp.cache(false);
@@ -12,7 +12,7 @@ const compressor = new PngCompressor();
 let tmpDir: string;
 
 beforeEach(async () => {
-  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cimg-test-'));
+  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cimg-test-"));
 });
 
 afterEach(async () => {
@@ -27,7 +27,7 @@ afterEach(async () => {
 });
 
 async function createTestPng(): Promise<string> {
-  const filePath = path.join(tmpDir, 'test.png');
+  const filePath = path.join(tmpDir, "test.png");
   const buffer = await sharp({
     create: {
       width: 100,
@@ -42,14 +42,14 @@ async function createTestPng(): Promise<string> {
   return filePath;
 }
 
-describe('PngCompressor', () => {
-  it('should have .png extension', () => {
-    expect(compressor.supportedExtensions).toEqual(['.png']);
+describe("PngCompressor", () => {
+  it("should have .png extension", () => {
+    expect(compressor.supportedExtensions).toEqual([".png"]);
   });
 
-  it('should compress a PNG file', async () => {
+  it("should compress a PNG file", async () => {
     const inputPath = await createTestPng();
-    const outputPath = path.join(tmpDir, 'output.png');
+    const outputPath = path.join(tmpDir, "output.png");
 
     const result = await compressor.compress(inputPath, outputPath, { quality: 80, force: false });
 
@@ -60,15 +60,18 @@ describe('PngCompressor', () => {
     expect(result.outputSize).toBeGreaterThan(0);
 
     // Output file should exist
-    const exists = await fs.stat(outputPath).then(() => true).catch(() => false);
+    const exists = await fs
+      .stat(outputPath)
+      .then(() => true)
+      .catch(() => false);
     expect(exists).toBe(true);
   });
 
-  it('should compress with different quality settings', async () => {
+  it("should compress with different quality settings", async () => {
     const inputPath = await createTestPng();
 
-    const highQualityPath = path.join(tmpDir, 'high.png');
-    const lowQualityPath = path.join(tmpDir, 'low.png');
+    const highQualityPath = path.join(tmpDir, "high.png");
+    const lowQualityPath = path.join(tmpDir, "low.png");
 
     const highResult = await compressor.compress(inputPath, highQualityPath, { quality: 90, force: false });
     const lowResult = await compressor.compress(inputPath, lowQualityPath, { quality: 10, force: false });
@@ -79,12 +82,11 @@ describe('PngCompressor', () => {
     expect(lowResult.outputSize).toBeLessThanOrEqual(highResult.outputSize);
   });
 
-  it('should return error for non-existent input', async () => {
-    const result = await compressor.compress(
-      path.join(tmpDir, 'nonexistent.png'),
-      path.join(tmpDir, 'out.png'),
-      { quality: 80, force: false },
-    );
+  it("should return error for non-existent input", async () => {
+    const result = await compressor.compress(path.join(tmpDir, "nonexistent.png"), path.join(tmpDir, "out.png"), {
+      quality: 80,
+      force: false,
+    });
 
     expect(result.success).toBe(false);
     expect(result.error).toBeTruthy();

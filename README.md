@@ -80,6 +80,7 @@ cimg ./images -q 30 -o ./build
 #### 文件夹模式
 
 - **未指定 `-o`**：输出到当前工作目录下的 `output/` 目录，文件加 `.min` 后缀，保持原始相对路径
+
   ```
   输入目录：
   /d/xx/a.png
@@ -89,7 +90,9 @@ cimg ./images -q 30 -o ./build
   ./output/a.min.png
   ./output/yy/b.min.jpg
   ```
+
 - **指定 `-o`**：输出到指定目录，保持原名和相对路径
+
   ```
   cimg /d/xx -o ./build
 
@@ -209,11 +212,11 @@ cimg-cli/
 `cimg-cli` 采用接口化设计，新增图片格式只需实现 `ICompressor` 接口并注册即可：
 
 ```typescript
-import type { ICompressor } from '../core/compressor.interface.js';
-import type { CompressOptions, CompressResult } from '../types.js';
+import type { ICompressor } from "../core/compressor.interface.js";
+import type { CompressOptions, CompressResult } from "../types.js";
 
 export class WebpCompressor implements ICompressor {
-  readonly supportedExtensions = ['.webp'];
+  readonly supportedExtensions = [".webp"];
 
   async compress(inputPath: string, outputPath: string, options: CompressOptions): Promise<CompressResult> {
     // 实现压缩逻辑

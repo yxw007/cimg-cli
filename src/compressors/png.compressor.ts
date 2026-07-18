@@ -1,17 +1,15 @@
-import sharp from 'sharp';
-import type { ICompressor } from '../core/compressor.interface.js';
-import type { CompressOptions, CompressResult } from '../types.js';
-import { getFileSize } from '../utils/file.js';
+import sharp from "sharp";
+import type { ICompressor } from "../core/compressor.interface.js";
+import type { CompressOptions, CompressResult } from "../types.js";
+import { getFileSize } from "../utils/file.js";
 
 export class PngCompressor implements ICompressor {
-  readonly supportedExtensions = ['.png'];
+  readonly supportedExtensions = [".png"];
 
   async compress(inputPath: string, outputPath: string, options: CompressOptions): Promise<CompressResult> {
     try {
       const inputSize = await getFileSize(inputPath);
-      await sharp(inputPath)
-        .png({ quality: options.quality })
-        .toFile(outputPath);
+      await sharp(inputPath, { limitInputPixels: false }).png({ quality: options.quality }).toFile(outputPath);
       const outputSize = await getFileSize(outputPath);
       return { inputPath, outputPath, inputSize, outputSize, success: true };
     } catch (error) {

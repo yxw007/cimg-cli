@@ -1,15 +1,15 @@
-import { defineConfig } from 'rolldown';
+import { defineConfig } from "rolldown";
 
 export default defineConfig({
-  input: 'src/index.ts',
+  input: "src/index.ts",
   output: {
-    dir: 'dist',
-    format: 'esm',
-    entryFileNames: 'index.js',
+    dir: "dist",
+    format: "esm",
+    entryFileNames: "index.js",
   },
-  external: ['sharp', 'commander'],
-  platform: 'node',
+  external: ["sharp", "commander"],
+  platform: "node",
   resolve: {
-    extensions: ['.mjs', '.js', '.ts', '.json'],
+    extensions: [".mjs", ".js", ".ts", ".json"],
   },
 });

@@ -1,6 +1,6 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { isImageFile } from './path.js';
+import fs from "node:fs/promises";
+import path from "node:path";
+import { isImageFile } from "./path.js";
 
 /** 递归确保目录存在 */
 export async function ensureDir(dirPath: string): Promise<void> {

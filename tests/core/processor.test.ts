@@ -1,9 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import os from 'node:os';
-import sharp from 'sharp';
-import { processPath } from '../../src/core/processor.js';
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import fs from "node:fs/promises";
+import path from "node:path";
+import os from "node:os";
+import sharp from "sharp";
+import { processPath } from "../../src/core/processor.js";
 
 // Disable sharp cache to avoid EBUSY on Windows
 sharp.cache(false);
@@ -12,11 +12,11 @@ let tmpDir: string;
 let originalCwd: string;
 
 beforeEach(async () => {
-  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cimg-test-'));
+  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cimg-test-"));
   originalCwd = process.cwd();
   process.chdir(tmpDir);
-  vi.spyOn(console, 'log').mockImplementation(() => {});
-  vi.spyOn(console, 'error').mockImplementation(() => {});
+  vi.spyOn(console, "log").mockImplementation(() => {});
+  vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
 afterEach(async () => {
@@ -65,91 +65,142 @@ async function createTestGif(name: string): Promise<string> {
   return filePath;
 }
 
-describe('processPath - single file mode', () => {
-  it('should compress a single PNG file with default output', async () => {
-    const inputPath = await createTestPng('photo.png');
+describe("processPath - single file mode", () => {
+  it("should compress a single PNG file with default output", async () => {
+    const inputPath = await createTestPng("photo.png");
 
     await processPath(inputPath, { quality: 80, force: false });
 
-    const outputPath = path.join(path.dirname(inputPath), 'photo.min.png');
-    const exists = await fs.stat(outputPath).then(() => true).catch(() => false);
+    const outputPath = path.join(path.dirname(inputPath), "photo.min.png");
+    const exists = await fs
+      .stat(outputPath)
+      .then(() => true)
+      .catch(() => false);
     expect(exists).toBe(true);
   });
 
-  it('should compress to custom output path', async () => {
-    const inputPath = await createTestPng('photo.png');
-    const outputPath = path.join(tmpDir, 'custom.png');
+  it("should compress to custom output path", async () => {
+    const inputPath = await createTestPng("photo.png");
+    const outputPath = path.join(tmpDir, "custom.png");
 
     await processPath(inputPath, { quality: 80, force: false, outputArg: outputPath });
 
-    const exists = await fs.stat(outputPath).then(() => true).catch(() => false);
+    const exists = await fs
+      .stat(outputPath)
+      .then(() => true)
+      .catch(() => false);
     expect(exists).toBe(true);
   });
 
-  it('should exit with error for unsupported format', async () => {
-    const filePath = path.join(tmpDir, 'document.txt');
-    await fs.writeFile(filePath, 'text');
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+  it("should exit with error for unsupported format", async () => {
+    const filePath = path.join(tmpDir, "document.txt");
+    await fs.writeFile(filePath, "text");
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
 
     await processPath(filePath, { quality: 80, force: false });
 
     expect(exitSpy).toHaveBeenCalledWith(1);
-    expect(console.error).toHaveBeenCalledWith(expect.stringContaining('Unsupported'));
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining("Unsupported"));
   });
 
-  it('should exit with error for non-existent path', async () => {
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+  it("should exit with error for non-existent path", async () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
 
-    await processPath('/nonexistent/path.png', { quality: 80, force: false });
+    await processPath("/nonexistent/path.png", { quality: 80, force: false });
 
     expect(exitSpy).toHaveBeenCalledWith(1);
-    expect(console.error).toHaveBeenCalledWith(expect.stringContaining('not exist'));
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining("not exist"));
   });
 });
 
-describe('processPath - folder mode', () => {
+describe("processPath - folder mode", () => {
   beforeEach(async () => {
-    await createTestPng('a.png');
-    await createTestJpg('b.jpg');
-    await createTestGif('c.gif');
-    await fs.writeFile(path.join(tmpDir, 'readme.txt'), 'text');
+    await createTestPng("a.png");
+    await createTestJpg("b.jpg");
+    await createTestGif("c.gif");
+    await fs.writeFile(path.join(tmpDir, "readme.txt"), "text");
     // Subdirectory
-    await fs.mkdir(path.join(tmpDir, 'sub'));
-    await createTestPng('sub/nested.png');
+    await fs.mkdir(path.join(tmpDir, "sub"));
+    await createTestPng("sub/nested.png");
   });
 
-  it('should compress all images in folder to default output', async () => {
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+  it("should compress all images in folder to default output", async () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
     await processPath(tmpDir, { quality: 80, force: false });
 
-    const outputDir = path.join(tmpDir, 'output');
-    expect(await fs.stat(path.join(outputDir, 'a.min.png')).then(() => true).catch(() => false)).toBe(true);
-    expect(await fs.stat(path.join(outputDir, 'b.min.jpg')).then(() => true).catch(() => false)).toBe(true);
-    expect(await fs.stat(path.join(outputDir, 'c.min.gif')).then(() => true).catch(() => false)).toBe(true);
-    expect(await fs.stat(path.join(outputDir, 'sub', 'nested.min.png')).then(() => true).catch(() => false)).toBe(true);
+    const outputDir = path.join(tmpDir, "output");
+    expect(
+      await fs
+        .stat(path.join(outputDir, "a.min.png"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(outputDir, "b.min.jpg"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(outputDir, "c.min.gif"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(outputDir, "sub", "nested.min.png"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
     expect(exitSpy).not.toHaveBeenCalled();
   });
 
-  it('should not include non-image files', async () => {
+  it("should not include non-image files", async () => {
     await processPath(tmpDir, { quality: 80, force: false });
 
-    const outputDir = path.join(tmpDir, 'output');
-    expect(await fs.stat(path.join(outputDir, 'readme.txt')).then(() => true).catch(() => false)).toBe(false);
+    const outputDir = path.join(tmpDir, "output");
+    expect(
+      await fs
+        .stat(path.join(outputDir, "readme.txt"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(false);
   });
 
-  it('should output to custom directory with original names', async () => {
-    const buildDir = path.join(tmpDir, 'build');
+  it("should output to custom directory with original names", async () => {
+    const buildDir = path.join(tmpDir, "build");
 
     await processPath(tmpDir, { quality: 80, force: false, outputArg: buildDir });
 
-    expect(await fs.stat(path.join(buildDir, 'a.png')).then(() => true).catch(() => false)).toBe(true);
-    expect(await fs.stat(path.join(buildDir, 'b.jpg')).then(() => true).catch(() => false)).toBe(true);
-    expect(await fs.stat(path.join(buildDir, 'c.gif')).then(() => true).catch(() => false)).toBe(true);
-    expect(await fs.stat(path.join(buildDir, 'sub', 'nested.png')).then(() => true).catch(() => false)).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(buildDir, "a.png"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(buildDir, "b.jpg"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(buildDir, "c.gif"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
+    expect(
+      await fs
+        .stat(path.join(buildDir, "sub", "nested.png"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
   });
 
-  it('should skip existing files without --force', async () => {
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+  it("should skip existing files without --force", async () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
     // First pass
     await processPath(tmpDir, { quality: 80, force: false });
 
@@ -157,13 +208,18 @@ describe('processPath - folder mode', () => {
     await processPath(tmpDir, { quality: 80, force: false });
 
     // Output should still exist
-    const outputDir = path.join(tmpDir, 'output');
-    expect(await fs.stat(path.join(outputDir, 'a.min.png')).then(() => true).catch(() => false)).toBe(true);
+    const outputDir = path.join(tmpDir, "output");
+    expect(
+      await fs
+        .stat(path.join(outputDir, "a.min.png"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
     expect(exitSpy).not.toHaveBeenCalled();
   });
 
-  it('should overwrite with --force', async () => {
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+  it("should overwrite with --force", async () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
 
     // First pass
     await processPath(tmpDir, { quality: 80, force: true });
@@ -171,8 +227,13 @@ describe('processPath - folder mode', () => {
     // Second pass with --force
     await processPath(tmpDir, { quality: 80, force: true });
 
-    const outputDir = path.join(tmpDir, 'output');
-    expect(await fs.stat(path.join(outputDir, 'a.min.png')).then(() => true).catch(() => false)).toBe(true);
+    const outputDir = path.join(tmpDir, "output");
+    expect(
+      await fs
+        .stat(path.join(outputDir, "a.min.png"))
+        .then(() => true)
+        .catch(() => false),
+    ).toBe(true);
     expect(exitSpy).not.toHaveBeenCalled();
   });
 });
