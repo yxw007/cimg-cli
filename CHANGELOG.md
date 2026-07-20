@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.1.0
+
+[compare changes](https://github.com/yxw007/cimg-cli/compare/v0.0.2...v0.1.0)
+
+### 🚀 Enhancements
+
+- ⚠️  Output value directory, no need to add.min to the filename ([9c1b43e](https://github.com/yxw007/cimg-cli/commit/9c1b43e))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Output value directory, no need to add.min to the filename ([9c1b43e](https://github.com/yxw007/cimg-cli/commit/9c1b43e))
+
+### ❤️ Contributors
+
+- Yxw007 ([@yxw007](https://github.com/yxw007))
+
 ## v0.0.2
 
 [compare changes](https://github.com/yxw007/cimg-cli/compare/v0.0.1...v0.0.2)
