@@ -131,25 +131,25 @@ describe("processPath - folder mode", () => {
     const outputDir = path.join(tmpDir, "output");
     expect(
       await fs
-        .stat(path.join(outputDir, "a.min.png"))
+        .stat(path.join(outputDir, "a.png"))
         .then(() => true)
         .catch(() => false),
     ).toBe(true);
     expect(
       await fs
-        .stat(path.join(outputDir, "b.min.jpg"))
+        .stat(path.join(outputDir, "b.jpg"))
         .then(() => true)
         .catch(() => false),
     ).toBe(true);
     expect(
       await fs
-        .stat(path.join(outputDir, "c.min.gif"))
+        .stat(path.join(outputDir, "c.gif"))
         .then(() => true)
         .catch(() => false),
     ).toBe(true);
     expect(
       await fs
-        .stat(path.join(outputDir, "sub", "nested.min.png"))
+        .stat(path.join(outputDir, "sub", "nested.png"))
         .then(() => true)
         .catch(() => false),
     ).toBe(true);
@@ -211,7 +211,7 @@ describe("processPath - folder mode", () => {
     const outputDir = path.join(tmpDir, "output");
     expect(
       await fs
-        .stat(path.join(outputDir, "a.min.png"))
+        .stat(path.join(outputDir, "a.png"))
         .then(() => true)
         .catch(() => false),
     ).toBe(true);
@@ -230,7 +230,7 @@ describe("processPath - folder mode", () => {
     const outputDir = path.join(tmpDir, "output");
     expect(
       await fs
-        .stat(path.join(outputDir, "a.min.png"))
+        .stat(path.join(outputDir, "a.png"))
         .then(() => true)
         .catch(() => false),
     ).toBe(true);

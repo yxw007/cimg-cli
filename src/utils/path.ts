@@ -35,13 +35,12 @@ export function getSingleOutputPath(inputPath: string, outputArg?: string): stri
 
 /**
  * 文件夹模式：生成输出路径，保持子目录结构
- * - 未指定 -o：输出到 CWD/output/，文件名加 .min 后缀
+ * - 未指定 -o：输出到 CWD/output/
  * - 指定 -o：输出到指定目录，保持原名
  */
 export function getFolderOutputPath(inputBase: string, filePath: string, outputArg?: string): string {
   const relPath = path.relative(inputBase, filePath);
-  const ext = path.extname(filePath);
-  const name = path.basename(filePath, ext);
+  const fileName = path.basename(filePath);
   const fileDir = path.dirname(relPath);
 
   if (outputArg) {
@@ -49,11 +48,7 @@ export function getFolderOutputPath(inputBase: string, filePath: string, outputA
     return path.join(path.resolve(outputArg), relPath);
   }
 
-  // 默认 → 输出到 ./output/，加 .min 后缀，保持相对路径
+  // 默认 → 输出到 ./output/，保持相对路径
   const outputBase = path.resolve("output");
-  const minFileName = `${name}.min${ext}`;
-  if (fileDir === ".") {
-    return path.join(outputBase, minFileName);
-  }
-  return path.join(outputBase, fileDir, minFileName);
+  return path.join(outputBase, fileDir, fileName);
 }

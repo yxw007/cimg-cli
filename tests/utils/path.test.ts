@@ -91,17 +91,17 @@ describe("getSingleOutputPath", () => {
 describe("getFolderOutputPath", () => {
   const inputBase = "/project/images";
 
-  it("should output to ./output/ with .min suffix when no output arg", () => {
+  it("should output to ./output/ with original name when no output arg", () => {
     const result = getFolderOutputPath(inputBase, "/project/images/photo.png");
     expect(result).toContain("output");
-    expect(result).toContain("photo.min.png");
+    expect(result).toContain("photo.png");
   });
 
-  it("should preserve subdirectory structure with .min suffix when no output arg", () => {
+  it("should preserve subdirectory structure with original name when no output arg", () => {
     const result = getFolderOutputPath(inputBase, "/project/images/sub/folder/photo.png");
     expect(result).toContain("output");
     expect(result.replace(/\\/g, "/")).toContain("sub/folder");
-    expect(result).toContain("photo.min.png");
+    expect(result).toContain("photo.png");
   });
 
   it("should use output arg dir and keep original name", () => {
